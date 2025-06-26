@@ -1,0 +1,36 @@
+{
+  "pages": {
+    "/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": [
+      "static/chunks/node_modules_next_dist_6284f7f1._.js",
+      "static/chunks/node_modules_next_dist_client_components_not-found-error_fc8b6554.js",
+      "static/chunks/node_modules_@clerk_localizations_dist_index_mjs_168d2f13._.js",
+      "static/chunks/node_modules_1fe86747._.js",
+      "static/chunks/src_865932da._.js",
+      "static/chunks/src_app_global-error_tsx_fc8b6554._.js",
+      "static/chunks/node_modules_bc24ed3c._.js",
+      "static/chunks/src_83d2f757._.js",
+      "static/chunks/src_styles_global_99ee5e55.css",
+      "static/chunks/src_app_[locale]_layout_tsx_fc8b6554._.js",
+      "static/chunks/node_modules_@clerk_nextjs_dist_esm_app-router_625a0d01._.js",
+      "static/chunks/node_modules_208461e8._.js",
+      "static/chunks/src_app_[locale]_(auth)_layout_tsx_833d730d._.js",
+      "static/chunks/node_modules_@clerk_nextjs_dist_esm_client-boundary_5c3cad18._.js",
+      "static/chunks/src_app_[locale]_(auth)_(center)_sign-in_[[___sign-in]]_page_tsx_e3430a9e._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_79c71ec9._.js",
+      "static/chunks/node_modules_next_dist_compiled_dae1c9ab._.js",
+      "static/chunks/node_modules_next_dist_client_b1e29c8f._.js",
+      "static/chunks/node_modules_next_dist_shared_lib_4b0cf7fc._.js",
+      "static/chunks/node_modules_next_dist_eb2b6a21._.js",
+      "static/chunks/node_modules_next_router_7ab374bf.js",
+      "static/chunks/node_modules_@sentry_core_build_esm_b2661c51._.js",
+      "static/chunks/node_modules_@sentry_browser_build_npm_esm_9e8a4d53._.js",
+      "static/chunks/node_modules_@sentry-internal_browser-utils_build_esm_c6a53728._.js",
+      "static/chunks/node_modules_@sentry-internal_replay_build_npm_esm_index_59148d8f.js",
+      "static/chunks/node_modules_@spotlightjs_overlay_dist_sentry-spotlight_42d9283f.js",
+      "static/chunks/node_modules_184cfcb3._.js",
+      "static/chunks/src_instrumentation-client_ts_4aba9a11._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_e85c31a0._.js"
+    ]
+  }
+}

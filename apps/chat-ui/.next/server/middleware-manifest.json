@@ -1,0 +1,58 @@
+{
+  "version": 3,
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/79789_b6839cdb._.js",
+        "server/edge/chunks/[root-of-the-server]__dfdf9efa._.js",
+        "server/edge/chunks/apps_chat-ui_edge-wrapper_788d507c.js",
+        "server/edge/chunks/apps_chat-ui_e34aa8cf._.js",
+        "server/edge/chunks/79789_@bufbuild_protobuf_dist_esm_7b28f89a._.js",
+        "server/edge/chunks/79789_@arcjet_protocol_48625f04._.js",
+        "server/edge/chunks/79789_@connectrpc_connect_dist_esm_8f42efe6._.js",
+        "server/edge/chunks/79789_@clerk_shared_dist_e3a88964._.js",
+        "server/edge/chunks/79789_@clerk_backend_dist_70dc9521._.js",
+        "server/edge/chunks/79789_@clerk_nextjs_dist_esm_d44ed1f8._.js",
+        "server/edge/chunks/79789_@formatjs_intl-localematcher_lib_78640cbf._.js",
+        "server/edge/chunks/79789_@clerk_localizations_dist_index_mjs_83a7e3e0._.js",
+        "server/edge/chunks/_76cb491b._.js",
+        "server/edge/chunks/[root-of-the-server]__a44e7387._.js",
+        "server/edge/chunks/apps_chat-ui_edge-wrapper_6a617753.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!_next|_vercel|monitoring|.*\\..*).*))(\\\\.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!_next|_vercel|monitoring|.*\\..*).*)"
+        }
+      ],
+      "wasm": [
+        {
+          "name": "wasm_79789__arcjet_analyze_wasm_wasm_arcjet_analyze_js_req_component_core2_325b988e",
+          "filePath": "server/edge/chunks/79789_@arcjet_analyze-wasm_wasm_arcjet_analyze_js_req_component_core2_325b988e.wasm"
+        },
+        {
+          "name": "wasm_79789__arcjet_analyze_wasm_wasm_arcjet_analyze_js_req_component_core3_325b988e",
+          "filePath": "server/edge/chunks/79789_@arcjet_analyze-wasm_wasm_arcjet_analyze_js_req_component_core3_325b988e.wasm"
+        },
+        {
+          "name": "wasm_79789__arcjet_analyze_wasm_wasm_arcjet_analyze_js_req_component_core_325b988e",
+          "filePath": "server/edge/chunks/79789_@arcjet_analyze-wasm_wasm_arcjet_analyze_js_req_component_core_325b988e.wasm"
+        }
+      ],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "oY7+wHUkDukX9buP5ExQL2xLJGYEZUpuF+TCv+4QXCU=",
+        "__NEXT_PREVIEW_MODE_ID": "160927d69bb74b29838963ebf021f7cd",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "d33a036050b946237dba76e7fb9b6281e00e927c97c2b56683fd945abbea69f3",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "1438ae6bdb23f712dc13e8c58cab4340811f6e76bee08aeefbf603e01b76f2c2"
+      }
+    }
+  },
+  "sortedMiddleware": [
+    "/"
+  ],
+  "functions": {}
+}
