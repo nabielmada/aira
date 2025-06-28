@@ -1,15 +1,19 @@
 {
   "workspaces": [
     "apps/*",
+    "gateway/*",
     "packages/*"
   ],
   "scripts": {
-    "dev:dashboard": "turbo run dev --filter=dashboard",
-    "dev:pos": "turbo run dev --filter=pos-client",
-    "dev:chat": "turbo run dev --filter=chat-ui",
-    "dev:api": "turbo run dev --filter=agent-api",
-    "dev:ai": "turbo run dev --filter=ai-engine",
-    "dev:wa": "turbo run dev --filter=whatsapp-agent"
+    "dev:turbo": "turbo run dev --parallel",
+    "build:turbo": "turbo run build",
+    "dev:api": "turbo run dev --filter=aira-api",
+    "dev:ai": "turbo run dev --filter=aira-ai-engine",
+    "dev:agent": "turbo run dev --filter=aira-ai-agent",
+    "dev:wa": "turbo run dev --filter=aira-whatsapp-agent",
+    "dev:dashboard": "turbo run dev --filter=aira-dashboard",
+    "dev:pos": "turbo run dev --filter=aira-pos-client",
+    "dev:chat": "turbo run dev --filter=aira-chat-ui"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.0",
@@ -21,5 +25,6 @@
   "devDependencies": {
     "@types/node": "^24.0.1",
     "turbo": "^2.5.4"
-  }
+  },
+  "packageManager": "npm@9.8.1"
 }

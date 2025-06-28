@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import Redis from 'ioredis';
 
 type ChatMessage = {
   role: 'user' | 'assistant' | 'system';
@@ -7,20 +8,33 @@ type ChatMessage = {
 
 @Injectable()
 export class ChatHistoryService {
-  private history: Map<string, ChatMessage[]> = new Map();
+  private redis: Redis;
+
+  constructor() {
+    try {
+      this.redis = new Redis();
+    } catch {
+      console.warn('Redis not connected, fallback to in-memory.');
+    }
+  }
 
   async getLastMessages(userId: string, limit = 10): Promise<ChatMessage[]> {
-    const allMessages = this.history.get(userId) || [];
-    return allMessages.slice(-limit);
+    if (!this.redis) return [];
+
+    const raw = await this.redis.lrange(`chat:${userId}`, -limit, -1);
+    return raw.map((item) => JSON.parse(item));
   }
 
   async saveMessage(userId: string, role: ChatMessage['role'], content: string) {
-    const current = this.history.get(userId) || [];
-    current.push({ role, content });
-    this.history.set(userId, current);
+    if (!this.redis) return;
+
+    const message: ChatMessage = { role, content };
+    await this.redis.rpush(`chat:${userId}`, JSON.stringify(message));
+    await this.redis.ltrim(`chat:${userId}`, -30, -1);
   }
 
   async resetHistory(userId: string) {
-    this.history.delete(userId);
+    if (!this.redis) return;
+    await this.redis.del(`chat:${userId}`);
   }
 }

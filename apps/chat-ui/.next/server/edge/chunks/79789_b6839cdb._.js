@@ -19852,7 +19852,7 @@ const globalWithInjectedValues = __TURBOPACK__imported__module__$5b$project$5d2f
     }
     const opts = {
         defaultIntegrations: customDefaultIntegrations,
-        release: process.env._sentryRelease || globalWithInjectedValues._sentryRelease,
+        release: ("TURBOPACK compile-time value", "7ca63538fbc7d25b28a1d147554decbf0709450a") || globalWithInjectedValues._sentryRelease,
         ...options
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f40$sentry$2f$core$2f$build$2f$esm$2f$utils$2f$sdkMetadata$2e$js__$5b$instrumentation$2d$edge$5d$__$28$ecmascript$29$__["applySdkMetadata"])(opts, 'nextjs', [

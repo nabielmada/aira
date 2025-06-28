@@ -1,11 +1,16 @@
 // src/modules/data/data.controller.ts
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { DataService } from './data.service';
+import { ChatHistoryService } from '../aira-chat/history/history.service';
 
 @Controller('data')
 export class DataController {
+  ChatHistoryService: any;
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(
+    private readonly dataService: DataService,
+    private readonly chatHistoryService: ChatHistoryService 
+  ) {}
 
   @Get('summary')
   async summary() {
@@ -20,6 +25,11 @@ export class DataController {
   @Post('chat')
   async chat(@Body() body: { userId: string; message: string }) {
     return this.dataService.sendChatToAI(body.userId, body.message);
+  }
+
+  @Get('history/:userId')
+  async getHistory(@Param('userId') userId: string) {
+    return this.chatHistoryService.getLastMessages(userId);
   }
 
   @Post('reset-chat')

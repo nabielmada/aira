@@ -6,9 +6,9 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev:spotlight": "spotlight-sidecar",
-    "dev:next": "next dev --turbopack",
-    "dev": "run-p dev:*",
+    "devx:spotlight": "spotlight-sidecar",
+    "devx:next": "next dev --turbopack",
+    "devx": "run-p dev:*",
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",
