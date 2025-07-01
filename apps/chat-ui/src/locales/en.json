@@ -59,17 +59,19 @@
     "meta_title": "Sign up",
     "meta_description": "Effortlessly create an account through our intuitive sign-up process."
   },
-  "Dashboard": {
-    "meta_title": "Dashboard",
-    "hello_message": "Hello {email}!",
-    "alternative_message": "Want to build your SaaS faster using the same stack? Try <url></url>."
-  },
   "UserProfile": {
     "meta_title": "User Profile"
   },
   "DashboardLayout": {
     "dashboard_link": "Dashboard",
-    "user_profile_link": "Manage your account",
-    "sign_out": "Sign out"
+    "chat_link": "AI Chat",
+    "user_profile_link": "User Profile",
+    "sign_out": "Sign Out"
+  },
+  "Dashboard": {
+    "meta_title": "Dashboard"
+  },
+  "Chat": {
+    "meta_title": "Aira - Your AI Business Assitent"
   }
 }

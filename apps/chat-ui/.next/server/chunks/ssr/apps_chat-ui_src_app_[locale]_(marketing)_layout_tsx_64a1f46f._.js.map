@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Applications/XAMPP/xamppfiles/htdocs/aira/apps/chat-ui/src/app/%5Blocale%5D/%28marketing%29/layout.tsx"],"sourcesContent":["// import { getTranslations, setRequestLocale } from 'next-intl/server';\n// import Link from 'next/link';\n// import { DemoBanner } from '@/components/DemoBanner';\n// import { LocaleSwitcher } from '@/components/LocaleSwitcher';\n// import { BaseTemplate } from '@/templates/BaseTemplate';\n\nexport default async function Layout(props: {\n  children: React.ReactNode;\n  params: Promise<{ locale: string }>;\n}) {\n  // const { locale } = await props.params;\n  // setRequestLocale(locale);\n  // const t = await getTranslations({\n  //   locale,\n  //   namespace: 'RootLayout',\n  // });\n\n  return (\n    <>\n      {props.children}\n    </>\n  );\n}\n"],"names":[],"mappings":"AAAA,wEAAwE;AACxE,gCAAgC;AAChC,wDAAwD;AACxD,gEAAgE;AAChE,2DAA2D;;;;;;AAE5C,eAAe,OAAO,KAGpC;IACC,yCAAyC;IACzC,4BAA4B;IAC5B,oCAAoC;IACpC,YAAY;IACZ,6BAA6B;IAC7B,MAAM;IAEN,qBACE;kBACG,MAAM,QAAQ;;AAGrB","debugId":null}}]
+}

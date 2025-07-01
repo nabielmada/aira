@@ -1,5 +1,110 @@
 {
-  "node": {},
+  "node": {
+    "7f60cd964ef3a2df124880833d58b62422676457ad": {
+      "workers": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/chat/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/chat/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": "action-browser",
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/chat/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/page": "action-browser"
+      }
+    },
+    "7f95a71d827684bf2a841f1426d6397463768b778d": {
+      "workers": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/chat/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/chat/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": "action-browser",
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/chat/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/page": "action-browser"
+      }
+    },
+    "7f97ed6385267507a79b9ced1ad6f444925149e11b": {
+      "workers": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/chat/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/chat/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": "action-browser",
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/chat/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/page": "action-browser"
+      }
+    },
+    "7feb48fd9ffad45d3a59c3061c0b5df071ea4f4e3a": {
+      "workers": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/chat/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/chat/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        },
+        "app/[locale]/(auth)/dashboard/page": {
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/[locale]/(auth)/(center)/sign-in/[[...sign-in]]/page": "action-browser",
+        "app/[locale]/(auth)/(center)/sign-up/[[...sign-up]]/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/chat/page": "action-browser",
+        "app/[locale]/(auth)/dashboard/page": "action-browser"
+      }
+    }
+  },
   "edge": {},
   "encryptionKey": "oY7+wHUkDukX9buP5ExQL2xLJGYEZUpuF+TCv+4QXCU="
 }

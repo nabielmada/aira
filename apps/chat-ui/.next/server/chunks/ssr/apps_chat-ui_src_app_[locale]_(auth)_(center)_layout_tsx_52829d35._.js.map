@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Applications/XAMPP/xamppfiles/htdocs/aira/apps/chat-ui/src/app/%5Blocale%5D/%28auth%29/%28center%29/layout.tsx"],"sourcesContent":["import { setRequestLocale } from 'next-intl/server';\n\nexport default async function CenteredLayout(props: {\n  children: React.ReactNode;\n  params: Promise<{ locale: string }>;\n}) {\n  const { locale } = await props.params;\n  setRequestLocale(locale);\n\n  return (\n    <div className=\"flex min-h-screen items-center justify-center\">\n      {props.children}\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;AAAA;;;AAEe,eAAe,eAAe,KAG5C;IACC,MAAM,EAAE,MAAM,EAAE,GAAG,MAAM,MAAM,MAAM;IACrC,CAAA,GAAA,iSAAA,CAAA,mBAAgB,AAAD,EAAE;IAEjB,qBACE,oQAAC;QAAI,WAAU;kBACZ,MAAM,QAAQ;;;;;;AAGrB","debugId":null}}]
+}

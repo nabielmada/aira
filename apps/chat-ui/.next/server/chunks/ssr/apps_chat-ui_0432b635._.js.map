@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 30, "column": 0}, "map": {"version":3,"sources":["file:///Applications/XAMPP/xamppfiles/htdocs/aira/apps/chat-ui/src/app/%5Blocale%5D/%28marketing%29/page.tsx"],"sourcesContent":["import { getTranslations, setRequestLocale } from 'next-intl/server';\nimport { Sponsors } from '@/components/Sponsors';\n\ntype IIndexProps = {\n  params: Promise<{ locale: string }>;\n};\n\nexport async function generateMetadata(props: IIndexProps) {\n  const { locale } = await props.params;\n  const t = await getTranslations({\n    locale,\n    namespace: 'Index',\n  });\n\n  return {\n    title: t('meta_title'),\n    description: t('meta_description'),\n  };\n}\n\nexport default async function Index(props: IIndexProps) {\n  const { locale } = await props.params;\n  setRequestLocale(locale);\n  const t = await getTranslations({\n    locale,\n    namespace: 'Index',\n  });\n\n  return (\n    <>\n     \n    </>\n  );\n};\n"],"names":[],"mappings":";;;;;AAAA;AAAA;;;AAOO,eAAe,iBAAiB,KAAkB;IACvD,MAAM,EAAE,MAAM,EAAE,GAAG,MAAM,MAAM,MAAM;IACrC,MAAM,IAAI,MAAM,CAAA,GAAA,8QAAA,CAAA,kBAAe,AAAD,EAAE;QAC9B;QACA,WAAW;IACb;IAEA,OAAO;QACL,OAAO,EAAE;QACT,aAAa,EAAE;IACjB;AACF;AAEe,eAAe,MAAM,KAAkB;IACpD,MAAM,EAAE,MAAM,EAAE,GAAG,MAAM,MAAM,MAAM;IACrC,CAAA,GAAA,iSAAA,CAAA,mBAAgB,AAAD,EAAE;IACjB,MAAM,IAAI,MAAM,CAAA,GAAA,8QAAA,CAAA,kBAAe,AAAD,EAAE;QAC9B;QACA,WAAW;IACb;IAEA,qBACE;AAIJ","debugId":null}}]
+}
