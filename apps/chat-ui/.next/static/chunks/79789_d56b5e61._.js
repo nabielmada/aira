@@ -1078,7 +1078,7 @@ const globalWithInjectedValues = __TURBOPACK__imported__module__$5b$project$5d2f
     const opts = {
         environment: (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f40$sentry$2f$nextjs$2f$build$2f$esm$2f$common$2f$getVercelEnv$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getVercelEnv"])(true) || ("TURBOPACK compile-time value", "development"),
         defaultIntegrations: getDefaultIntegrations(options),
-        release: ("TURBOPACK compile-time value", "0ade8997c5085f3f32d20598457e839e3ee6b5ac") || globalWithInjectedValues._sentryRelease,
+        release: ("TURBOPACK compile-time value", "add3876db9ba07da5ec00c6dddcec9995260eb62") || globalWithInjectedValues._sentryRelease,
         ...options
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f40$sentry$2f$nextjs$2f$build$2f$esm$2f$client$2f$tunnelRoute$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["applyTunnelRouteOption"])(opts);

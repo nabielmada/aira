@@ -1,6 +1,6 @@
 const CHUNK_PUBLIC_PATH = "server/instrumentation.js";
 const runtime = require("./chunks/[turbopack]_runtime.js");
-runtime.loadChunk("server/chunks/[externals]_node:inspector_bdb51102._.js");
+runtime.loadChunk("server/chunks/[externals]_node:inspector_450899ea._.js");
 runtime.loadChunk("server/chunks/79789_@sentry_core_build_cjs_72af519a._.js");
 runtime.loadChunk("server/chunks/79789_@sentry_node_build_cjs_12406579._.js");
 runtime.loadChunk("server/chunks/5a6d7_@opentelemetry_core_build_esm_6c77a85c._.js");
@@ -33,7 +33,7 @@ runtime.loadChunk("server/chunks/79789_1d2a6f2a._.js");
 runtime.loadChunk("server/chunks/79789_57043c66._.js");
 runtime.loadChunk("server/chunks/79789_72b70248._.js");
 runtime.loadChunk("server/chunks/79789_@sentry_nextjs_build_cjs_8df4e368._.js");
-runtime.loadChunk("server/chunks/_3fed6999._.js");
+runtime.loadChunk("server/chunks/_cb4931f3._.js");
 runtime.loadChunk("server/chunks/[root-of-the-server]__a6ee4baa._.js");
 runtime.getOrInstantiateRuntimeModule("[project]/apps/chat-ui/src/instrumentation.ts [instrumentation] (ecmascript)", CHUNK_PUBLIC_PATH);
 module.exports = runtime.getOrInstantiateRuntimeModule("[project]/apps/chat-ui/src/instrumentation.ts [instrumentation] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

@@ -42,6 +42,7 @@ function ChatInterface() {
     const [sidebarOpen, setSidebarOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const messagesEndRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
     const textareaRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    //   const userId = localStorage.getItem('userId') || 'guest-' + Date.now();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         messagesEndRef.current?.scrollIntoView({
             behavior: 'smooth'
@@ -80,11 +81,34 @@ function ChatInterface() {
                     title: chat.messages.length === 0 ? userMessage.content.length > 35 ? userMessage.content.slice(0, 32) + '...' : userMessage.content : chat.title,
                     lastUpdated: new Date()
                 } : chat));
-        // Simulate AI response
-        setTimeout(()=>{
+        try {
+            const requestBody = {
+                userId: 'user-123',
+                message: userMessage.content
+            };
+            // Log the request body to debug
+            console.log('Request Body:', requestBody);
+            const res = await fetch('http://localhost:5000/data/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+            // Check for response errors
+            if (!res.ok) {
+                const errorText = await res.text();
+                console.error('Error Response:', errorText);
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            const result = await res.json();
+            // Validate the response structure
+            if (!result || typeof result.data !== 'string') {
+                throw new Error('Invalid response format from server');
+            }
             const assistantMessage = {
                 id: (Date.now() + 1).toString(),
-                content: `Thank you for your message: "${userMessage.content}". This is a simulated AI response. In a real implementation, this would be connected to your AI service. I'm here to help you with any questions or tasks you might have!`,
+                content: result.data || 'Oops, Gagal mengambil balasan dari Aira AI Engine',
                 role: 'assistant',
                 timestamp: new Date()
             };
@@ -100,7 +124,21 @@ function ChatInterface() {
                         messages: finalMessages,
                         lastUpdated: new Date()
                     } : chat));
-        }, 1000 + Math.random() * 2000);
+        } catch (error) {
+            console.error('Error fetching response from AI engine:', error);
+            setIsLoading(false);
+            // Optionally, show an error message to the user
+            const errorMessage = {
+                id: (Date.now() + 2).toString(),
+                content: 'Oops, something went wrong. Please try again later.',
+                role: 'assistant',
+                timestamp: new Date()
+            };
+            setMessages([
+                ...newMessages,
+                errorMessage
+            ]);
+        }
     };
     const handleKeyPress = (e)=>{
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -137,106 +175,106 @@ function ChatInterface() {
         });
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "jsx-5ce352179fc931ad" + " " + `w-screen h-screen overflow-hidden ${isDarkMode ? 'dark bg-slate-900' : 'bg-gray-50'} flex`,
+        className: "jsx-e0512bd952321c1c" + " " + `w-screen h-screen overflow-hidden ${isDarkMode ? 'dark bg-slate-900' : 'bg-gray-50'} flex`,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "jsx-5ce352179fc931ad" + " " + `${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 ease-in-out overflow-hidden ${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-r flex flex-col shadow-lg`,
+                className: "jsx-e0512bd952321c1c" + " " + `${sidebarOpen ? 'w-70' : 'w-0'} transition-all duration-300 ease-in-out overflow-hidden ${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-r flex flex-col shadow-lg`,
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + "px-3 pt-4 pb-3 border-b",
+                        className: "jsx-e0512bd952321c1c" + " " + "px-3 pt-4 pb-3 border-b",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-3 mb-4 pb-2",
+                                className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-3 mb-4 pb-2",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center",
+                                        className: "jsx-e0512bd952321c1c" + " " + "w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sparkles$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sparkles$3e$__["Sparkles"], {
                                             size: 16,
                                             className: "text-white"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 145,
+                                            lineNumber: 191,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 144,
+                                        lineNumber: 190,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "text-lg font-semibold text-white",
+                                        className: "jsx-e0512bd952321c1c" + " " + "text-lg font-semibold text-white",
                                         children: "Aira Business Assistant"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 147,
+                                        lineNumber: 193,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 143,
+                                lineNumber: 189,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: createNewChat,
-                                className: "jsx-5ce352179fc931ad" + " " + "w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl",
+                                className: "jsx-e0512bd952321c1c" + " " + "w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                         size: 16
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 153,
+                                        lineNumber: 199,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "font-medium text-sm",
+                                        className: "jsx-e0512bd952321c1c" + " " + "font-medium text-sm",
                                         children: "Start New Conversation"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 154,
+                                        lineNumber: 200,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 149,
+                                lineNumber: 195,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 142,
+                        lineNumber: 188,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + "flex-1 overflow-y-auto p-3 custom-scrollbar",
+                        className: "jsx-e0512bd952321c1c" + " " + "flex-1 overflow-y-auto p-3 custom-scrollbar",
                         children: chats.map((chat)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 onClick: ()=>setCurrentChatId(chat.id),
-                                className: "jsx-5ce352179fc931ad" + " " + `group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 mb-2 ${currentChatId === chat.id ? 'bg-slate-700 shadow' : 'hover:bg-slate-700'}`,
+                                className: "jsx-e0512bd952321c1c" + " " + `group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 mb-2 ${currentChatId === chat.id ? 'bg-slate-700 shadow' : 'hover:bg-slate-700'}`,
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "flex-1 min-w-0",
+                                        className: "jsx-e0512bd952321c1c" + " " + "flex-1 min-w-0",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "text-sm font-medium truncate text-white",
+                                                className: "jsx-e0512bd952321c1c" + " " + "text-sm font-medium truncate text-white",
                                                 children: chat.title
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 172,
+                                                lineNumber: 218,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "text-xs text-slate-400 mt-1",
+                                                className: "jsx-e0512bd952321c1c" + " " + "text-xs text-slate-400 mt-1",
                                                 children: chat.lastUpdated.toLocaleDateString()
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 175,
+                                                lineNumber: 221,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 217,
                                         columnNumber: 15
                                     }, this),
                                     chats.length > 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -244,481 +282,481 @@ function ChatInterface() {
                                             e.stopPropagation();
                                             deleteChat(chat.id);
                                         },
-                                        className: "jsx-5ce352179fc931ad" + " " + "opacity-0 group-hover:opacity-100 p-2 rounded-lg transition-all duration-200 hover:bg-red-500/20 text-red-400 hover:text-red-300",
+                                        className: "jsx-e0512bd952321c1c" + " " + "opacity-0 group-hover:opacity-100 p-2 rounded-lg transition-all duration-200 hover:bg-red-500/20 text-red-400 hover:text-red-300",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 187,
+                                            lineNumber: 233,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 180,
+                                        lineNumber: 226,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, chat.id, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 161,
+                                lineNumber: 207,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 159,
+                        lineNumber: 205,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + "p-4 border-t ",
+                        className: "jsx-e0512bd952321c1c" + " " + "p-4 border-t ",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "jsx-5ce352179fc931ad" + " " + "flex items-center justify-between",
+                            className: "jsx-e0512bd952321c1c" + " " + "flex items-center justify-between",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-2",
+                                    className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-2",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>setIsDarkMode(!isDarkMode),
-                                            className: "jsx-5ce352179fc931ad" + " " + "p-3 rounded-xl transition-all duration-200 hover:bg-slate-700 text-slate-400 hover:text-white",
+                                            className: "jsx-e0512bd952321c1c" + " " + "p-3 rounded-xl transition-all duration-200 hover:bg-slate-700 text-slate-400 hover:text-white",
                                             children: isDarkMode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$sun$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Sun$3e$__["Sun"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 202,
+                                                lineNumber: 248,
                                                 columnNumber: 31
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$moon$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Moon$3e$__["Moon"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 202,
+                                                lineNumber: 248,
                                                 columnNumber: 51
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 198,
+                                            lineNumber: 244,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            className: "jsx-5ce352179fc931ad" + " " + "p-3 rounded-xl transition-all duration-200 hover:bg-slate-700 text-slate-400 hover:text-white",
+                                            className: "jsx-e0512bd952321c1c" + " " + "p-3 rounded-xl transition-all duration-200 hover:bg-slate-700 text-slate-400 hover:text-white",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__["Settings"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 251,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 204,
+                                            lineNumber: 250,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 197,
+                                    lineNumber: 243,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-2 text-xs text-slate-400",
+                                    className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-2 text-xs text-slate-400",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-5ce352179fc931ad" + " " + "w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                                            className: "jsx-e0512bd952321c1c" + " " + "w-2 h-2 bg-green-400 rounded-full animate-pulse"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 209,
+                                            lineNumber: 255,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "jsx-5ce352179fc931ad",
+                                            className: "jsx-e0512bd952321c1c",
                                             children: "Online"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 210,
+                                            lineNumber: 256,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 208,
+                                    lineNumber: 254,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                            lineNumber: 196,
+                            lineNumber: 242,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 195,
+                        lineNumber: 241,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                lineNumber: 140,
+                lineNumber: 186,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "jsx-5ce352179fc931ad" + " " + "flex-1 flex flex-col min-h-0",
+                className: "jsx-e0512bd952321c1c" + " " + "flex-1 flex flex-col min-h-0",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + `${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-b p-4 flex items-center justify-between shadow-sm`,
+                        className: "jsx-e0512bd952321c1c" + " " + `${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-b p-4 flex items-center justify-between shadow-sm`,
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-4",
+                                className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-4",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>setSidebarOpen(!sidebarOpen),
-                                        className: "jsx-5ce352179fc931ad" + " " + "p-2 rounded-lg transition-colors hover:bg-slate-700 text-slate-400 hover:text-white lg:hidden",
+                                        className: "jsx-e0512bd952321c1c" + " " + "p-2 rounded-lg transition-colors hover:bg-slate-700 text-slate-400 hover:text-white lg:hidden",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$menu$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Menu$3e$__["Menu"], {
                                             size: 20
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 225,
+                                            lineNumber: 271,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 221,
+                                        lineNumber: 267,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-3",
+                                        className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-3",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center",
+                                                className: "jsx-e0512bd952321c1c" + " " + "w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center",
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
                                                     size: 20,
                                                     className: "text-white"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 229,
+                                                    lineNumber: 275,
                                                     columnNumber: 17
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 228,
+                                                lineNumber: 274,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-5ce352179fc931ad",
+                                                className: "jsx-e0512bd952321c1c",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-lg font-semibold text-white",
-                                                        children: "PT. MyKiara Teknologi Inovasi"
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-lg font-semibold text-white",
+                                                        children: "PT. Perusahaan Mana Saja"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 232,
+                                                        lineNumber: 278,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-sm text-slate-400",
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-sm text-slate-400",
                                                         children: "Your intelligent conversation partner"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 235,
+                                                        lineNumber: 281,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 231,
+                                                lineNumber: 277,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 227,
+                                        lineNumber: 273,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 220,
+                                lineNumber: 266,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-3",
+                                className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-3",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-5ce352179fc931ad" + " " + "px-4 py-2 rounded-full text-xs font-medium bg-green-500/20 text-green-400 border border-green-500/30",
+                                    className: "jsx-e0512bd952321c1c" + " " + "px-4 py-2 rounded-full text-xs font-medium bg-green-500/20 text-green-400 border border-green-500/30",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "flex items-center gap-2",
+                                        className: "jsx-e0512bd952321c1c" + " " + "flex items-center gap-2",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "w-2 h-2 bg-green-400 rounded-full animate-pulse"
+                                                className: "jsx-e0512bd952321c1c" + " " + "w-2 h-2 bg-green-400 rounded-full animate-pulse"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 242,
+                                                lineNumber: 288,
                                                 columnNumber: 17
                                             }, this),
                                             "Active"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 241,
+                                        lineNumber: 287,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 240,
+                                    lineNumber: 286,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 239,
+                                lineNumber: 285,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 219,
+                        lineNumber: 265,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + "flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar",
+                        className: "jsx-e0512bd952321c1c" + " " + "flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar",
                         children: [
                             messages.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-5ce352179fc931ad" + " " + "flex flex-col items-center justify-center h-full text-center max-w-2xl mx-auto",
+                                className: "jsx-e0512bd952321c1c" + " " + "flex flex-col items-center justify-center h-full text-center max-w-2xl mx-auto",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6",
+                                        className: "jsx-e0512bd952321c1c" + " " + "w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
                                             size: 40,
                                             className: "text-white"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 254,
+                                            lineNumber: 300,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 253,
+                                        lineNumber: 299,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "text-3xl font-bold mb-3 text-white",
+                                        className: "jsx-e0512bd952321c1c" + " " + "text-3xl font-bold mb-3 text-white",
                                         children: "Artificial Intelegence Reporting Assistant"
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 256,
+                                        lineNumber: 302,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "text-slate-400 text-lg mb-6 leading-relaxed",
+                                        className: "jsx-e0512bd952321c1c" + " " + "text-slate-400 text-lg mb-6 leading-relaxed",
                                         children: "Your intelligent business companion is ready to help. Start a conversation and experience the power of AI-driven assistance for your professional needs."
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 259,
+                                        lineNumber: 305,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg",
+                                        className: "jsx-e0512bd952321c1c" + " " + "grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "p-4 bg-slate-800 rounded-xl ",
+                                                className: "jsx-e0512bd952321c1c" + " " + "p-4 bg-slate-800 rounded-xl ",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-white font-medium mb-2",
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-white font-medium mb-2",
                                                         children: "💼 Business Support"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 265,
+                                                        lineNumber: 311,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-slate-400 text-sm",
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-slate-400 text-sm",
                                                         children: "Get help with business planning, analysis, and strategy"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 266,
+                                                        lineNumber: 312,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 264,
+                                                lineNumber: 310,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "jsx-5ce352179fc931ad" + " " + "p-4 bg-slate-800 rounded-xl ",
+                                                className: "jsx-e0512bd952321c1c" + " " + "p-4 bg-slate-800 rounded-xl ",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-white font-medium mb-2",
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-white font-medium mb-2",
                                                         children: "🚀 Productivity Boost"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 269,
+                                                        lineNumber: 315,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "text-slate-400 text-sm",
+                                                        className: "jsx-e0512bd952321c1c" + " " + "text-slate-400 text-sm",
                                                         children: "Streamline workflows and optimize your processes"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 270,
+                                                        lineNumber: 316,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 268,
+                                                lineNumber: 314,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 263,
+                                        lineNumber: 309,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 252,
+                                lineNumber: 298,
                                 columnNumber: 13
                             }, this) : messages.map((message)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-5ce352179fc931ad" + " " + `flex gap-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`,
+                                    className: "jsx-e0512bd952321c1c" + " " + `flex gap-4 ${message.role === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`,
                                     children: [
                                         message.role === 'assistant' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-5ce352179fc931ad" + " " + "w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg",
+                                            className: "jsx-e0512bd952321c1c" + " " + "w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
                                                 size: 18,
                                                 className: "text-white"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 282,
+                                                lineNumber: 328,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 281,
+                                            lineNumber: 327,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-5ce352179fc931ad" + " " + `max-w-[75%] ${message.role === 'user' ? 'order-1' : ''}`,
+                                            className: "jsx-e0512bd952321c1c" + " " + `max-w-[75%] ${message.role === 'user' ? 'order-1' : ''}`,
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "jsx-5ce352179fc931ad" + " " + `px-6 py-4 rounded-2xl shadow-lg ${message.role === 'user' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'bg-slate-800 text-white'}`,
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "jsx-5ce352179fc931ad" + " " + "whitespace-pre-wrap break-words leading-relaxed",
+                                                    className: "jsx-e0512bd952321c1c" + " " + `px-6 py-4 rounded-2xl shadow-lg ${message.role === 'user' ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white' : 'bg-slate-800 text-white'}`,
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "jsx-e0512bd952321c1c" + " " + "prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none whitespace-pre-wrap break-words leading-relaxed",
                                                         children: message.content
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                        lineNumber: 294,
+                                                        lineNumber: 340,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 287,
+                                                    lineNumber: 333,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "jsx-5ce352179fc931ad" + " " + `text-xs mt-2 text-slate-400 ${message.role === 'user' ? 'text-right' : 'text-left'}`,
+                                                    className: "jsx-e0512bd952321c1c" + " " + `text-xs mt-2 text-slate-400 ${message.role === 'user' ? 'text-right' : 'text-left'}`,
                                                     children: formatTime(message.timestamp)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 296,
+                                                    lineNumber: 346,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 286,
+                                            lineNumber: 332,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, message.id, true, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 276,
+                                    lineNumber: 322,
                                     columnNumber: 15
                                 }, this)),
                             isLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "jsx-5ce352179fc931ad" + " " + "flex gap-4 justify-start animate-fadeIn",
+                                className: "jsx-e0512bd952321c1c" + " " + "flex gap-4 justify-start animate-fadeIn",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg",
+                                        className: "jsx-e0512bd952321c1c" + " " + "w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bot$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Bot$3e$__["Bot"], {
                                             size: 18,
                                             className: "text-white"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 313,
+                                            lineNumber: 363,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 312,
+                                        lineNumber: 362,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "jsx-5ce352179fc931ad" + " " + "px-6 py-4 rounded-2xl shadow-lg",
+                                        className: "jsx-e0512bd952321c1c" + " " + "px-6 py-4 rounded-2xl shadow-lg",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "jsx-5ce352179fc931ad" + " " + "flex space-x-2",
+                                            className: "jsx-e0512bd952321c1c" + " " + "flex space-x-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "jsx-5ce352179fc931ad" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
+                                                    className: "jsx-e0512bd952321c1c" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 317,
+                                                    lineNumber: 367,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     style: {
                                                         animationDelay: '0.1s'
                                                     },
-                                                    className: "jsx-5ce352179fc931ad" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
+                                                    className: "jsx-e0512bd952321c1c" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 318,
+                                                    lineNumber: 368,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     style: {
                                                         animationDelay: '0.2s'
                                                     },
-                                                    className: "jsx-5ce352179fc931ad" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
+                                                    className: "jsx-e0512bd952321c1c" + " " + "w-3 h-3 bg-slate-400 rounded-full animate-bounce"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                    lineNumber: 319,
+                                                    lineNumber: 369,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 316,
+                                            lineNumber: 366,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                        lineNumber: 315,
+                                        lineNumber: 365,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 311,
+                                lineNumber: 361,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 ref: messagesEndRef,
-                                className: "jsx-5ce352179fc931ad"
+                                className: "jsx-e0512bd952321c1c"
                             }, void 0, false, {
                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                lineNumber: 325,
+                                lineNumber: 375,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 250,
+                        lineNumber: 296,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "jsx-5ce352179fc931ad" + " " + "p-6 backdrop-blur-sm",
+                        className: "jsx-e0512bd952321c1c" + " " + "p-3 backdrop-blur-sm",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "jsx-5ce352179fc931ad" + " " + "max-w-4xl mx-auto",
+                            className: "jsx-e0512bd952321c1c" + " " + "max-w-4xl mx-auto",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "jsx-5ce352179fc931ad" + " " + "flex gap-4 bg-slate-800 rounded-2xl p-4 shadow-lg",
+                                    className: "jsx-e0512bd952321c1c" + " " + "flex gap-4 bg-slate-800 rounded-2xl p-4 shadow-lg",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                                             ref: textareaRef,
@@ -728,67 +766,67 @@ function ChatInterface() {
                                             placeholder: "Type your message here...",
                                             rows: 1,
                                             disabled: isLoading,
-                                            className: "jsx-5ce352179fc931ad" + " " + "flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 min-h-[24px] max-h-32 leading-relaxed"
+                                            className: "jsx-e0512bd952321c1c" + " " + "flex-1 bg-transparent resize-none outline-none text-white placeholder-slate-400 min-h-[24px] max-h-32 leading-relaxed"
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 332,
+                                            lineNumber: 382,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: handleSendMessage,
                                             disabled: !inputValue.trim() || isLoading,
-                                            className: "jsx-5ce352179fc931ad" + " " + `p-3 rounded-xl transition-all duration-200 ${inputValue.trim() && !isLoading ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105' : 'bg-slate-700 text-slate-400 cursor-not-allowed'}`,
+                                            className: "jsx-e0512bd952321c1c" + " " + `p-3 rounded-xl transition-all duration-200 ${inputValue.trim() && !isLoading ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105' : 'bg-slate-700 text-slate-400 cursor-not-allowed'}`,
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$send$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Send$3e$__["Send"], {
                                                 size: 18
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                                lineNumber: 351,
+                                                lineNumber: 401,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                            lineNumber: 342,
+                                            lineNumber: 392,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 331,
+                                    lineNumber: 381,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                    className: "jsx-5ce352179fc931ad" + " " + "text-xs text-slate-400 mt-3 text-center",
-                                    children: "Press Enter to send • Shift + Enter for new line • Powered by AI"
+                                    className: "jsx-e0512bd952321c1c" + " " + "text-xs text-slate-400 my-2 text-center",
+                                    children: "Press Enter to send • Shift + Enter for new line • Powered by Aira"
                                 }, void 0, false, {
                                     fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                                    lineNumber: 354,
+                                    lineNumber: 404,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                            lineNumber: 330,
+                            lineNumber: 380,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                        lineNumber: 329,
+                        lineNumber: 379,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-                lineNumber: 217,
+                lineNumber: 263,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$chat$2d$ui$2f$node_modules$2f$next$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                id: "5ce352179fc931ad",
-                children: ".custom-scrollbar.jsx-5ce352179fc931ad::-webkit-scrollbar{width:6px}.custom-scrollbar.jsx-5ce352179fc931ad::-webkit-scrollbar-track{background:0 0}.custom-scrollbar.jsx-5ce352179fc931ad::-webkit-scrollbar-thumb{background:#475569;border-radius:3px}.custom-scrollbar.jsx-5ce352179fc931ad.jsx-5ce352179fc931ad::-webkit-scrollbar-thumb:hover{background:#64748b}@keyframes fadeIn{0%{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.animate-fadeIn.jsx-5ce352179fc931ad{animation:.3s ease-out fadeIn}"
+                id: "e0512bd952321c1c",
+                children: ".custom-scrollbar.jsx-e0512bd952321c1c::-webkit-scrollbar{width:3px}.custom-scrollbar.jsx-e0512bd952321c1c::-webkit-scrollbar-track{background:0 0}.custom-scrollbar.jsx-e0512bd952321c1c::-webkit-scrollbar-thumb{background:#475569;border-radius:3px}.custom-scrollbar.jsx-e0512bd952321c1c.jsx-e0512bd952321c1c::-webkit-scrollbar-thumb:hover{background:#64748b}@keyframes fadeIn{0%{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.animate-fadeIn.jsx-e0512bd952321c1c{animation:.3s ease-out fadeIn}"
             }, void 0, false, void 0, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/chat-ui/src/components/ChatInterface.tsx",
-        lineNumber: 138,
+        lineNumber: 184,
         columnNumber: 5
     }, this);
 }

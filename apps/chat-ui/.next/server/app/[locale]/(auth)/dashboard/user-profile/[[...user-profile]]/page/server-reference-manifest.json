@@ -1,9 +1,9 @@
 {
   "node": {
-    "7f5510daa3e37ccedb7605a6bb5b07dee67c332022": {
+    "7f60cd964ef3a2df124880833d58b62422676457ad": {
       "workers": {
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": {
-          "moduleId": "[project]/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -11,10 +11,10 @@
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": "action-browser"
       }
     },
-    "7fe5f93546643f34cd11b708dd0ac121c04aa65940": {
+    "7f95a71d827684bf2a841f1426d6397463768b778d": {
       "workers": {
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": {
-          "moduleId": "[project]/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -22,10 +22,10 @@
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": "action-browser"
       }
     },
-    "7fff4777cb3d60fef87291e83896ed0b0b41b5dee8": {
+    "7f97ed6385267507a79b9ced1ad6f444925149e11b": {
       "workers": {
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": {
-          "moduleId": "[project]/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },
@@ -33,10 +33,10 @@
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": "action-browser"
       }
     },
-    "7fbbf9599ef74533b7792edb63f64634a4016bd7c3": {
+    "7feb48fd9ffad45d3a59c3061c0b5df071ea4f4e3a": {
       "workers": {
         "app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page": {
-          "moduleId": "[project]/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/apps/chat-ui/.next-internal/server/app/[locale]/(auth)/dashboard/user-profile/[[...user-profile]]/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/chat-ui/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false
         }
       },

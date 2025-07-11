@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 
 import { ProxyService } from '../../common/proxy/http-client';
 import { ChatHistoryService } from '../aira-chat/history/history.service';
+import { detectIntent, getQuickResponse } from 'src/utils/intent.util';
+import { formatMarkdownAnswers } from 'src/modules/helper/formatted-answers';
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -63,6 +65,15 @@ export class DataService {
   }
 
   async sendChatToAI(userId: string, userQuestion: string) {
+    // const intent = detectIntent(userQuestion);
+  
+    // if (intent !== 'default') {
+    //   const reply = getQuickResponse(intent);
+    //   await this.chatHistoryService.saveMessage(userId, 'user', userQuestion);
+    //   await this.chatHistoryService.saveMessage(userId, 'assistant', reply ?? '');
+    //   return reply;
+    // }
+  
     const aiUrl = this.config.get<string>('AI_ENGINE_URL') + '/ai/chat';
   
     const chatHistory: { role: string; content: string }[] =
@@ -91,7 +102,7 @@ export class DataService {
     await this.chatHistoryService.saveMessage(userId, 'assistant', aiReply);
   
     return aiReply;
-  }  
+  }
 
   async resetChat(userId: string) {
     await this.chatHistoryService.resetHistory(userId);

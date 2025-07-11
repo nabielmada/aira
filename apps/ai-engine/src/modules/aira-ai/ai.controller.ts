@@ -8,7 +8,7 @@ export class AiController {
     @Post('analyze')
     async analyze(@Body('data') data: Record<string, any>): Promise<any> {
         const prompt = this.createPrompt(data);
-        return this.aiService.chatWithGroq([{ role: 'user', content: prompt }]);
+        return this.aiService.chatWithAira([{ role: 'user', content: prompt }]);
     }
 
     @Post('chat')
@@ -23,7 +23,7 @@ export class AiController {
             });
         }
 
-        return this.aiService.chatWithGroq(messages);
+        return this.aiService.chatWithAira(messages);
     }
 
     private createPrompt(data: Record<string, any>): string {

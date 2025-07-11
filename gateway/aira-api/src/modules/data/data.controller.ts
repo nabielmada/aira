@@ -24,7 +24,8 @@ export class DataController {
 
   @Post('chat')
   async chat(@Body() body: { userId: string; message: string }) {
-    return this.dataService.sendChatToAI(body.userId, body.message);
+    const aiReply = await this.dataService.sendChatToAI(body.userId, body.message);
+    return { data: aiReply };
   }
 
   @Get('history/:userId')

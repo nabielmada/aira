@@ -12,7 +12,7 @@ export class AiService {
     this.apiUrl = this.config.get<string>('GROQ_API_URL') ?? (() => { throw new Error('Missing GROQ_API_URL') })();
   }
 
-  async chatWithGroq(messages: { role: string; content: string }[]) {
+  async chatWithAira(messages: { role: string; content: string }[]) {
     const body = {
       model: 'llama-3.3-70b-versatile',
       messages,

@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Plus, MessageSquare, Trash2, Settings, Sun, Moon, Sparkles, Menu } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   id: string;
@@ -36,6 +38,8 @@ export default function ChatInterface() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+//   const userId = localStorage.getItem('userId') || 'guest-' + Date.now();
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -49,19 +53,19 @@ export default function ChatInterface() {
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
-
+  
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputValue.trim(),
       role: 'user',
       timestamp: new Date()
     };
-
+  
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInputValue('');
     setIsLoading(true);
-
+  
     // Update current chat
     setChats(prevChats => 
       prevChats.map(chat => 
@@ -75,30 +79,72 @@ export default function ChatInterface() {
           : chat
       )
     );
+  
+    try {
+        const requestBody = {
+            userId: 'user-123',
+            message: userMessage.content,
+          };
+          
+          // Log the request body to debug
+          console.log('Request Body:', requestBody);
+          
+          const res = await fetch('http://localhost:5000/data/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody), // Ensure proper JSON serialization
+          });
+          
+          // Check for response errors
+          if (!res.ok) {
+            const errorText = await res.text();
+            console.error('Error Response:', errorText);
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
 
-    // Simulate AI response
-    setTimeout(() => {
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: `Thank you for your message: "${userMessage.content}". This is a simulated AI response. In a real implementation, this would be connected to your AI service. I'm here to help you with any questions or tasks you might have!`,
+        const result = await res.json();
+    
+        // Validate the response structure
+        if (!result || typeof result.data !== 'string') {
+            throw new Error('Invalid response format from server');
+        }
+  
+        const assistantMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: result.data || 'Oops, Gagal mengambil balasan dari Aira AI Engine',
+            role: 'assistant',
+            timestamp: new Date()
+        };
+    
+        const finalMessages = [...newMessages, assistantMessage];
+        setMessages(finalMessages);
+        setIsLoading(false);
+    
+        // Update chat with assistant response
+        setChats(prevChats => 
+            prevChats.map(chat => 
+            chat.id === currentChatId 
+                ? { ...chat, messages: finalMessages, lastUpdated: new Date() }
+                : chat
+            )
+        );
+  
+    } catch (error) {
+      console.error('Error fetching response from AI engine:', error);
+      setIsLoading(false);
+      // Optionally, show an error message to the user
+      const errorMessage: Message = {
+        id: (Date.now() + 2).toString(),
+        content: 'Oops, something went wrong. Please try again later.',
         role: 'assistant',
         timestamp: new Date()
       };
-
-      const finalMessages = [...newMessages, assistantMessage];
-      setMessages(finalMessages);
-      setIsLoading(false);
-
-      // Update chat with assistant response
-      setChats(prevChats => 
-        prevChats.map(chat => 
-          chat.id === currentChatId 
-            ? { ...chat, messages: finalMessages, lastUpdated: new Date() }
-            : chat
-        )
-      );
-    }, 1000 + Math.random() * 2000);
+      setMessages([...newMessages, errorMessage]);
+    }
   };
+  
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -137,7 +183,7 @@ export default function ChatInterface() {
   return (
     <div className={`w-screen h-screen overflow-hidden ${isDarkMode ? 'dark bg-slate-900' : 'bg-gray-50'} flex`}>
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-80' : 'w-0'} transition-all duration-300 ease-in-out overflow-hidden ${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-r flex flex-col shadow-lg`}>
+      <div className={`${sidebarOpen ? 'w-70' : 'w-0'} transition-all duration-300 ease-in-out overflow-hidden ${isDarkMode ? 'bg-slate-800 ' : 'bg-white border-gray-200'} border-r flex flex-col shadow-lg`}>
         {/* Sidebar Header */}
         <div className="px-3 pt-4 pb-3 border-b">
           <div className="flex items-center gap-3 mb-4 pb-2">
@@ -230,7 +276,7 @@ export default function ChatInterface() {
               </div>
               <div>
                 <h1 className="text-lg font-semibold text-white">
-                  PT. MyKiara Teknologi Inovasi
+                  PT. Perusahaan Mana Saja
                 </h1>
                 <p className="text-sm text-slate-400">Your intelligent conversation partner</p>
               </div>
@@ -291,18 +337,93 @@ export default function ChatInterface() {
                         : 'bg-slate-800 text-white'
                     }`}
                   >
-                    <p className="whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
+                    <div className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none leading-relaxed">
+                      {message.role === 'user' ? (
+                        <div className="whitespace-pre-wrap break-words">
+                          {message.content}
+                        </div>
+                      ) : (
+                        <ReactMarkdown 
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            // Custom styling untuk dark theme
+                            h1: ({ node, ...props }) => (
+                              <h1 className="text-2xl font-bold mb-4 text-white border-b border-slate-600 pb-2" {...props} />
+                            ),
+                            h2: ({ node, ...props }) => (
+                              <h2 className="text-xl font-bold mb-3 text-white border-b border-slate-600 pb-1" {...props} />
+                            ),
+                            h3: ({ node, ...props }) => (
+                              <h3 className="text-lg font-semibold mb-2 text-blue-300" {...props} />
+                            ),
+                            h4: ({ node, ...props }) => (
+                              <h4 className="text-base font-semibold mb-2 text-blue-300" {...props} />
+                            ),
+                            
+                            // Paragraf
+                            p: ({ node, ...props }) => (
+                              <p className="mb-3 text-slate-100 leading-relaxed" {...props} />
+                            ),
+                            
+                            // List styling
+                            ul: ({ node, ...props }) => (
+                              <ul className="list-disc pl-6 mb-4 space-y-1 text-slate-100" {...props} />
+                            ),
+                            ol: ({ node, ...props }) => (
+                              <ol className="list-decimal pl-6 mb-4 space-y-1 text-slate-100" {...props} />
+                            ),
+                            li: ({ node, ...props }) => (
+                              <li className="mb-1 text-slate-100" {...props} />
+                            ),
+                            
+                            // Table styling untuk dark theme
+                            table: ({ node, ...props }) => (
+                              <div className="overflow-x-auto mb-4 rounded-lg border border-slate-600">
+                                <table className="min-w-full bg-slate-700" {...props} />
+                              </div>
+                            ),
+                            thead: ({ node, ...props }) => (
+                              <thead className="bg-slate-600" {...props} />
+                            ),
+                            th: ({ node, ...props }) => (
+                              <th className="px-4 py-3 text-left text-sm font-semibold text-white border-b border-slate-500" {...props} />
+                            ),
+                            td: ({ node, ...props }) => (
+                              <td className="px-4 py-3 text-sm text-slate-100 border-b border-slate-600" {...props} />
+                            ),
+                            
+                            // Code styling
+                            // code: ({ node, inline, ...props }) => (
+                            //   inline 
+                            //     ? <code className="bg-slate-600 text-blue-300 px-2 py-1 rounded text-sm font-mono" {...props} />
+                            //     : <code className="block bg-slate-900 text-green-300 p-4 rounded-lg text-sm font-mono overflow-x-auto border border-slate-600" {...props} />
+                            // ),
+                            
+                            // Blockquote
+                            blockquote: ({ node, ...props }) => (
+                              <blockquote className="border-l-4 border-blue-500 pl-4 italic text-slate-300 mb-4 bg-slate-700 py-2 rounded-r" {...props} />
+                            ),
+                            
+                            // Strong text
+                            strong: ({ node, ...props }) => (
+                              <strong className="font-bold text-blue-300" {...props} />
+                            ),
+                            
+                            // Links
+                            a: ({ node, ...props }) => (
+                              <a className="text-blue-400 hover:text-blue-300 underline" {...props} />
+                            )
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      )}
+                    </div>
                   </div>
                   <p className={`text-xs mt-2 text-slate-400 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
                     {formatTime(message.timestamp)}
                   </p>
                 </div>
-
-                {/* {message.role === 'user' && (
-                  <div className="w-10 h-10 rounded-xl bg-slate-600 flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <User size={18} className="text-white" />
-                  </div>
-                )} */}
               </div>
             ))
           )}
@@ -326,7 +447,7 @@ export default function ChatInterface() {
         </div>
 
         {/* Input Area */}
-        <div className="p-6 backdrop-blur-sm">
+        <div className="p-3 backdrop-blur-sm">
           <div className="max-w-4xl mx-auto">
             <div className="flex gap-4 bg-slate-800 rounded-2xl p-4 shadow-lg">
               <textarea
@@ -351,8 +472,8 @@ export default function ChatInterface() {
                 <Send size={18} />
               </button>
             </div>
-            <p className="text-xs text-slate-400 mt-3 text-center">
-              Press Enter to send • Shift + Enter for new line • Powered by AI
+            <p className="text-xs text-slate-400 my-2 text-center">
+              Press Enter to send • Shift + Enter for new line • Powered by Aira
             </p>
           </div>
         </div>
@@ -360,7 +481,7 @@ export default function ChatInterface() {
 
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
+          width: 3px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;

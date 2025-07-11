@@ -2804,7 +2804,7 @@ function withErrorBoundary(WrappedComponent) {
     }
     const opts = {
         environment: process.env.SENTRY_ENVIRONMENT || getVercelEnv.getVercelEnv(false) || ("TURBOPACK compile-time value", "development"),
-        release: ("TURBOPACK compile-time value", "0ade8997c5085f3f32d20598457e839e3ee6b5ac") || globalWithInjectedValues._sentryRelease,
+        release: ("TURBOPACK compile-time value", "add3876db9ba07da5ec00c6dddcec9995260eb62") || globalWithInjectedValues._sentryRelease,
         defaultIntegrations: customDefaultIntegrations,
         ...options
     };
